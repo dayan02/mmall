@@ -1,0 +1,38 @@
+#忽略提交到Git的文件
+
+.class
+
+#package file
+# *.jar不需要，maven仓库管理jar包，不会提交到Git，但是支付宝的jar包不在maven中，需要提交到Git
+*.war
+*.ear
+
+#kdiff ignore
+*.orig
+
+#maven ignore
+target/
+
+#eclipse ignore
+.settings/
+.project
+.classpatch
+
+#idea ignore
+.idea/
+/idea/
+*.ipr
+*.iml
+*.iws
+
+#temp file 临时文件
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+
+#system ignore 系统生成的临时文件
+.BS_Store
+Thumbs.db
+
