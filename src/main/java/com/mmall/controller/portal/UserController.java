@@ -53,7 +53,22 @@ return  response;
         return  ServerResponse.createBySuccess();
     }
 
+    /**
+     * 用户注册
+     * @param user
+     * @return
+     */
+    @RequestMapping(value = "register.do" ,method=RequestMethod.GET)
+    @ResponseBody
+public  ServerResponse<String> register(User user){
+return  iUserService.register(user);
+}
 
+//校验email和用户名是否存在，每次输入信息实时校验
+
+    public ServerResponse<String> checValid(String str,String type){
+
+    }
 
 
 }

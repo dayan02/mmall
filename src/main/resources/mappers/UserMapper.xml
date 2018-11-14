@@ -155,7 +155,16 @@
   <select id="checkUserName" parameterType="string" resultType="int">
     SELECT count(1) from mmall_user
     WHERE  usernam = #{username}
+  </select>
 
+  <select id="checkUserName" parameterType="string" resultType="int">
+    SELECT count(1) from mmall_user
+    WHERE  usernam = #{username}
+  </select>
+
+  <select id="checkEmail" parameterType="string" resultType="int">
+    SELECT count(1) from mmall_user
+    WHERE  email = #{email}
   </select>
   <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
 //要什么查什么，尽量不用*
