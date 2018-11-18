@@ -20,4 +20,6 @@ public interface IUserService {
    ServerResponse<String> forgetResetPassword(String username, String passwordNew, String forgetToken);
     //登录时重置密码
       ServerResponse<String> resetPassword(String passwordOld,String passordNew,User user);
+    //更新信息
+    ServerResponse<User> updateInformation(User user);
 }

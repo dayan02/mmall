@@ -34,4 +34,6 @@ public interface UserMapper {
     //查找password
     int checkPassword(@Param("password") String password,@Param("userId") Integer userId);
 
+    int checkEmailByUserId(@Param("email")String email,@Param("userId")Integer userId);
+
 }

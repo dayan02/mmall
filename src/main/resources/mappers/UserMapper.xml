@@ -202,4 +202,11 @@
     password = #{password}
     and id = #{userId}
   </select>
+
+  <select id="checkEmailByUserId" parameterType="map" resultType="int">
+       SELECT count(1) from mmall_user
+    WHERE  email = #{email}
+    <!--查询iemail是否被其他用户使用。如果被使用，则返回值大于0-->
+    and id != #{userId}
+  </select>
 </mapper>

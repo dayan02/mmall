@@ -106,11 +106,33 @@ return  this.iUserService.forgetResetPassword(username,passwordNew,forgetToken);
 
 
     //登录状态的重置密码
+    @RequestMapping(value = "reset_password.do" ,method =RequestMethod.GET)
+    @ResponseBody
     public ServerResponse<String> resetPassword(HttpSession session,String passwordOld,String passwordNew){
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user == null){
-            return ServerResponse.createByErrorMessage("用户不存在");
+            return ServerResponse.createByErrorMessage("用户未登录");
         }
         return this.iUserService.resetPassword(passwordOld,passwordNew,user);
+    }
+
+    @RequestMapping(value = "update_information.do" ,method =RequestMethod.GET)
+    @ResponseBody
+    //更新用户信息
+    public  ServerResponse<User> update_information(HttpSession session,User user){
+        User currentUser =(User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        //只有在登录状态才能更改用户信息，所以需要进行登录判断
+        //为了防止越权问题，就把id获取通过session获取当前用户id，用户是当前用户名，即获取当前登录的用户id和name
+        user.setId(currentUser.getId());
+        user.setUsername((currentUser.getUsername()));
+        ServerResponse<User> response = this.iUserService.updateInformation(user);
+        if (response.isSuccess()){
+            response.getData().setUsername(currentUser.getUsername());
+            session.setAttribute(Const.CURRENT_USER,response.getData());
+        }
+        return  response;
     }
 }
