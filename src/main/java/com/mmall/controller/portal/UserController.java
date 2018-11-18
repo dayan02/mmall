@@ -65,10 +65,42 @@ return  iUserService.register(user);
 }
 
 //校验email和用户名是否存在，每次输入信息实时校验
-
+@RequestMapping(value = "checValid.do" ,method=RequestMethod.GET)
+@ResponseBody
     public ServerResponse<String> checValid(String str,String type){
+return iUserService.checkValid(str,type);
+    }
+@RequestMapping(value = "get_user_info.do" ,method = RequestMethod.GET)
+    @ResponseBody
+    public  ServerResponse<User> getUserInfo(HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user != null){
+            return  ServerResponse.createBySuccess(user);
+        }
+        return  ServerResponse.createByErrorMessage("用户未登录，获取不到信息");
+    }
+//密码提示问题的获取
+@RequestMapping(value = "forget_get_question.do" ,method = RequestMethod.GET)
+@ResponseBody
+    public  ServerResponse<String> forgetGetQuestion(String username){
 
+    return  iUserService.selectQuestion(username);
     }
 
+//使用本地缓存校验问题答案接口
+@RequestMapping(value = "forget_check_answer.do" ,method = RequestMethod.GET)
+@ResponseBody
+public ServerResponse<String> forgetCheckAnswer(String username,String question,String answer){
 
+    return this.iUserService.checkAnswer(username,question,answer);
+}
+
+
+    //token给前端之后，在忘掉密码的重置密码中，需要与后台的token进行对比
+    //忘记密码中的重置密码
+    @RequestMapping(value = "forget_reset_password.do" ,method = RequestMethod.GET)
+    @ResponseBody
+    public  ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken){
+return  this.iUserService.forgetResetPassword(username,passwordNew,forgetToken);
+    }
 }

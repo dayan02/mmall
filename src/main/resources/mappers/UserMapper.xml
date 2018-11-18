@@ -152,10 +152,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="checkUserName" parameterType="string" resultType="int">
-    SELECT count(1) from mmall_user
-    WHERE  usernam = #{username}
-  </select>
 
   <select id="checkUserName" parameterType="string" resultType="int">
     SELECT count(1) from mmall_user
@@ -166,13 +162,36 @@
     SELECT count(1) from mmall_user
     WHERE  email = #{email}
   </select>
+
   <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
-//要什么查什么，尽量不用*
+//要什么查什么尽量不用*
     SELECT
     <include refid="Base_Column_List"/>
     from mmall_user
     WHERE  usernam = #{username}
     and password = #{password}
+  </select>
+
+  <select id="selectQuestionByUsername" parameterType="string" resultType="string">
+    SELECT  question
+    from mmall_user
+    where username=#{username}
 
   </select>
+<select id="checkAnswer" parameterType="map" resultType="int">
+  SELECT
+  COUNT(1)
+  form mmall_user
+  WHERE username = #{username}
+  and question = #{question}
+  and answer = #{answer]}
+</select>
+
+  <update id="uodatePassword" parameterType="map">
+    UPDATE mmall_user
+    SET
+    password = #{passwordNew},update_time=now()
+    where
+    username = #{username}
+  </update>
 </mapper>
