@@ -157,7 +157,7 @@ public class UserServiceImpl implements IUserService {
         }
         if (StringUtils.equals(forgetToken, token)) {
             String md5Passord = MD5Util.MD5EncodeUtf8(passwordNew);
-int rowCount = this.userMapper.uodatePassword(username,md5Passord);
+int rowCount = this.userMapper.updatePassword(username,md5Passord);
             if (rowCount>0){
                 return ServerResponse.createByErrorMessage("修改密码成功");
             }
@@ -167,5 +167,19 @@ int rowCount = this.userMapper.uodatePassword(username,md5Passord);
         }
 return ServerResponse.createByErrorMessage("修改密码失败");
     }
+//登录状态的重置密码
+    public  ServerResponse<String> resetPassword(String passwordOld,String passordNew,User user){
+        //防止横向越权，要校验一下这个用户的旧密码
+        int resultCount = this.userMapper.checkPassword(MD5Util.MD5EncodeUtf8(passwordOld),user.getId());
+if (resultCount == 0){
+    return  ServerResponse.createByErrorMessage("旧密码错误");
+}
+        user.setPassword(MD5Util.MD5EncodeUtf8(passordNew));
+int updateCount = this.userMapper.updateByPrimaryKey(user);
+        if (updateCount>0){
+            return ServerResponse.createBySuccessMessage("密码更新成功");
+        }
+        return ServerResponse.createByErrorMessage("密码更新失败");
 
+    }
 }

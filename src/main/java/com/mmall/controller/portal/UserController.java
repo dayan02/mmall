@@ -103,4 +103,14 @@ public ServerResponse<String> forgetCheckAnswer(String username,String question,
     public  ServerResponse<String> forgetResetPassword(String username,String passwordNew,String forgetToken){
 return  this.iUserService.forgetResetPassword(username,passwordNew,forgetToken);
     }
+
+
+    //登录状态的重置密码
+    public ServerResponse<String> resetPassword(HttpSession session,String passwordOld,String passwordNew){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("用户不存在");
+        }
+        return this.iUserService.resetPassword(passwordOld,passwordNew,user);
+    }
 }
