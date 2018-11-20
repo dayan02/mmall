@@ -237,4 +237,15 @@ int updateCount = this.userMapper.updateByPrimaryKey(user);
         }
         return ServerResponse.createByErrorMessage("更新信息失败");
         }
+
+
+    //获取用户全部信息
+    public  ServerResponse<User> getInformation(Integer userId){
+User user = this.userMapper.selectByPrimaryKey(userId);
+        if (user == null){
+            return ServerResponse.createByErrorMessage("找不到当前用户");
+        }
+        user.setPassword(StringUtils.EMPTY);
+        return ServerResponse.createBySuccess(user);
+    }
         }

@@ -1,6 +1,7 @@
 package com.mmall.controller.portal;
 
 import com.mmall.common.Const;
+import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
@@ -135,4 +136,16 @@ return  this.iUserService.forgetResetPassword(username,passwordNew,forgetToken);
         }
         return  response;
     }
+
+    @RequestMapping(value = "get_information.do" ,method =RequestMethod.GET)
+    @ResponseBody
+//获取用户的全部信息
+public ServerResponse<User> get_information(HttpSession session){
+    User currentUser = (User) session.getAttribute(Const.CURRENT_USER);
+if (currentUser == null){
+    return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，需要强制登录");
+}
+    return this.iUserService.getInformation(currentUser.getId());
+}
+
 }
