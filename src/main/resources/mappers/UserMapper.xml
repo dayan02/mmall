@@ -155,7 +155,7 @@
 
   <select id="checkUserName" parameterType="string" resultType="int">
     SELECT count(1) from mmall_user
-    WHERE  usernam = #{username}
+    WHERE  username = #{username}
   </select>
 
   <select id="checkEmail" parameterType="string" resultType="int">
@@ -164,11 +164,11 @@
   </select>
 
   <select id="selectLogin" parameterType="map" resultMap="BaseResultMap">
-//要什么查什么尽量不用*
+<!--要什么查什么尽量不用*-->
     SELECT
     <include refid="Base_Column_List"/>
     from mmall_user
-    WHERE  usernam = #{username}
+    WHERE  username = #{username}
     and password = #{password}
   </select>
 
@@ -181,10 +181,10 @@
 <select id="checkAnswer" parameterType="map" resultType="int">
   SELECT
   COUNT(1)
-  form mmall_user
+  from mmall_user
   WHERE username = #{username}
   and question = #{question}
-  and answer = #{answer]}
+  and answer = #{answer}
 </select>
 
   <update id="updatePassword" parameterType="map">

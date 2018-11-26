@@ -7,8 +7,9 @@ import com.mmall.pojo.User;
  * Created by 大燕 on 2018/11/14.
  */
 public interface IUserService {
+
     //登录
-    ServerResponse<User> login(String name, String password);
+   ServerResponse<User> login(String name, String password);
     //注册
     ServerResponse<String> register(User user);
     //验证
@@ -24,4 +25,7 @@ public interface IUserService {
     ServerResponse<User> updateInformation(User user);
 
     ServerResponse<User> getInformation(Integer userId);
+
+    //身份校验
+    ServerResponse checkUserRole(User user);
 }

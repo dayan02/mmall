@@ -3,7 +3,8 @@ package com.mmall.util;
 import java.security.MessageDigest;
 
 /**
- * Created by geely
+ * MD5加密
+ * 可增加字符串进行加密操作
  */
 public class MD5Util {
 

@@ -24,6 +24,7 @@
     </filter-mapping>
 
 <!--web容器启动和关闭的监听器-->
+
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
@@ -42,14 +43,17 @@
 
     <!--springMVC配置-->
     <servlet>
-        <servlet-name>dispatcher</servlet-name>
+        <servlet-name>mmall</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        
+<init-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
+</init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
+        <servlet-name>mmall</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 

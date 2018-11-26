@@ -22,6 +22,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
+
     /**
      * 登录
      *
@@ -36,7 +37,7 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("用户名不存在");
         }
         // md5加密之后的密码验证一下
-        String md5Password = MD5Util.MD5EncodeUtf8(password);
+      String md5Password = MD5Util.MD5EncodeUtf8(password);
         User user = userMapper.selectLogin(username, md5Password);
         if (user == null) {
             return ServerResponse.createByErrorMessage("密码错误");
@@ -179,7 +180,7 @@ public class UserServiceImpl implements IUserService {
             String md5Passord = MD5Util.MD5EncodeUtf8(passwordNew);
 int rowCount = this.userMapper.updatePassword(username,md5Passord);
             if (rowCount>0){
-                return ServerResponse.createByErrorMessage("修改密码成功");
+                return ServerResponse.createBySuccessMessage("修改密码成功");
             }
         }else{
             //传过来的token跟存储的token不一样
@@ -248,4 +249,17 @@ User user = this.userMapper.selectByPrimaryKey(userId);
         user.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
     }
-        }
+
+    /**
+     * 校验身份是否是管理员
+     * @param user
+     */
+      public ServerResponse checkUserRole(User user) {
+          if (user != null && user.getRole().intValue() == Const.Role.ROLE_ADMIN) {
+              return ServerResponse.createBySuccess();
+          } else {
+              return ServerResponse.createByError();
+          }
+
+      }
+}
