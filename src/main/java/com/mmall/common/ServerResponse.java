@@ -40,9 +40,9 @@ private  ServerResponse(int status){
     @JsonIgnore
     //public,这些Json数据会显示到前端，所以注解掉,不会在json序列化之中
 public  boolean isSuccess(){
-    //如果返回status是0的话，就返回成功；
-    return this.status==ResponseCode.SUCCESS.getCode();
-}
+        //如果返回status是0的话，就返回成功；
+        return this.status==ResponseCode.SUCCESS.getCode();
+    }
 //get方法对外开发数据
     public T getData() {
         return data;

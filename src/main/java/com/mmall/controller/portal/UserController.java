@@ -36,12 +36,12 @@ public class UserController {
 public ServerResponse<User> login(String username, String password, HttpSession session){
         ServerResponse<User> response  = iUserService.login(username,password);
         if(response.isSuccess()){
-session.setAttribute("Const.CURRENT_USER",response.getData());
+            //已经存储好了，所以这里直接使用不加引号
+session.setAttribute(Const.CURRENT_USER,response.getData());
         }
 
 return  response;
 }
-
     /**
      * 用户退出登录
      * @param session
