@@ -1,5 +1,7 @@
 package com.mmall.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.CategoryMapper;
@@ -10,9 +12,13 @@ import com.mmall.service.IProductService;
 import com.mmall.util.DateTimeUtil;
 import com.mmall.util.PropertiesUtil;
 import com.mmall.vo.ProductDetaiVo;
+import com.mmall.vo.ProductListVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 大燕 on 2018/12/3.
@@ -110,4 +116,34 @@ ProductDetaiVo productDetaiVo = new ProductDetaiVo();
         productDetaiVo.setUpdateTime(DateTimeUtil.dateToStr(product.getUpdateTime()));
         return productDetaiVo;
 }
+
+
+    //分页处理列表查询
+    public ServerResponse<PageInfo> getProductList(int pageNum,int pageSize){
+        //1、设置初始页；2、sql语句处理；3、pagehelper收尾
+        PageHelper.startPage(pageNum,pageSize);
+        List<Product> productList = productMapper.selectList();
+        List<ProductListVo> productListVoList = new ArrayList<>();
+        for (Product productItem: productList) {
+            ProductListVo productListVo = this.assembleProductListVo(productItem);
+            productListVoList.add(productListVo);
+        }
+        PageInfo pageResult = new PageInfo(productList);
+        pageResult.setList(productListVoList);
+        return ServerResponse.createBySuccess(pageResult);
+    }
+
+
+    private ProductListVo assembleProductListVo(Product product){
+ProductListVo productListVo = new ProductListVo();
+        productListVo.setId(product.getId());
+        productListVo.setStatus(product.getStatus());
+        productListVo.setName(product.getName());
+        productListVo.setMainImage(product.getMainImage());
+        productListVo.setPrice(product.getPrice());
+        productListVo.setCategoryId(product.getCategoryId());
+        productListVo.setSubtitle(product.getSubtitle());
+        productListVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/"));
+   return productListVo;
+    }
 }

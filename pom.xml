@@ -185,7 +185,7 @@
 
 
 
-    <!-- mybatis pager -->
+    <!-- mybatis pager  分页技术实现-->
 
     <dependency>
       <groupId>com.github.pagehelper</groupId>
@@ -193,6 +193,7 @@
       <version>4.1.0</version>
     </dependency>
 
+    <!-- page helper依赖-->
     <dependency>
       <groupId>com.github.miemiedev</groupId>
       <artifactId>mybatis-paginator</artifactId>

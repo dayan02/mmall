@@ -10,6 +10,7 @@ import com.mmall.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -75,5 +76,25 @@ return iProductService.setSaleSatus(productId,status);
         }
         return ServerResponse.createByErrorMessage("不是管理员，无权限");
     }
+
+    @RequestMapping("list.do")
+    @ResponseBody
+    //pageNum当前页，默认为第一页，pageSize每页多少，默认10
+    public ServerResponse getList(HttpSession session , @RequestParam(value = "pageNum",defaultValue = "1" ) int pageNum,@RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+        User user = (User) session.getAttribute(Const.CURRENT_USER) ;
+        if (user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要登录");
+        }
+        if (iUserService.checkUserRole(user).isSuccess()){
+            //业务处理，分页列表查询显示
+
+            return iProductService.getProductList(pageNum,pageSize);
+
+        }
+        return ServerResponse.createByErrorMessage("不是管理员，无权限");
+    }
+
+
+
 
 }
