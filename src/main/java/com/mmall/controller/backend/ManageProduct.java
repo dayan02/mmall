@@ -94,7 +94,23 @@ return iProductService.setSaleSatus(productId,status);
         return ServerResponse.createByErrorMessage("不是管理员，无权限");
     }
 
+//商品查询
+@RequestMapping("search.do")
+@ResponseBody
+//pageNum当前页，默认为第一页，pageSize每页多少，默认10
+public ServerResponse productSearch(HttpSession session ,String productName,Integer productId, @RequestParam(value = "pageNum",defaultValue = "1" ) int pageNum,@RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+    User user = (User) session.getAttribute(Const.CURRENT_USER) ;
+    if (user == null){
+        return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要登录");
+    }
+    if (iUserService.checkUserRole(user).isSuccess()){
+        //业务处理，商品查询
+        return iProductService.searchProduct(productName,productId,pageNum,pageSize);
 
+
+    }
+    return ServerResponse.createByErrorMessage("不是管理员，无权限");
+}
 
 
 }

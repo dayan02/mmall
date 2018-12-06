@@ -184,4 +184,21 @@
     ORDER BY  ASC
     <!--pagehelper自动给出limit分页-->
   </select>
+
+<select id="selectProdutByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
+SELECT
+<include refid="Base_Column_List"/>
+  from mmall_product
+  <where>
+    <if test="productName != NULL"  >
+      AND NAME LIKE #{productName }
+    </if>
+    <if test="productId !=  NULL" >
+      and Id = #{productId}
+    </if>
+
+  </where>
+</select>
+
+
 </mapper>

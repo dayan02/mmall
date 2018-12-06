@@ -2,6 +2,7 @@ package com.mmall.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.CategoryMapper;
@@ -17,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -123,7 +123,7 @@ ProductDetaiVo productDetaiVo = new ProductDetaiVo();
         //1、设置初始页；2、sql语句处理；3、pagehelper收尾
         PageHelper.startPage(pageNum,pageSize);
         List<Product> productList = productMapper.selectList();
-        List<ProductListVo> productListVoList = new ArrayList<>();
+        List<ProductListVo> productListVoList = Lists.newArrayList();
         for (Product productItem: productList) {
             ProductListVo productListVo = this.assembleProductListVo(productItem);
             productListVoList.add(productListVo);
@@ -146,4 +146,28 @@ ProductListVo productListVo = new ProductListVo();
         productListVo.setImageHost(PropertiesUtil.getProperty("ftp.server.http.prefix","http://img.happymmall.com/"));
    return productListVo;
     }
+
+
+
+    //商品查询
+    public ServerResponse<PageInfo> searchProduct(String productName,Integer productId,int pageNum,int pageSize){
+
+        PageHelper.startPage(pageNum,pageSize);
+        if (StringUtils.isNotBlank(productName)){
+            productName = new StringBuilder().append("%").append(productName).append("%").toString();
+}
+        List<Product> productList = productMapper.selectProdutByNameAndProductId(productName, productId);
+        List<ProductListVo> productListVoList = Lists.newArrayList();
+        for (Product productItem:productList) {
+           ProductListVo productListVo = this.assembleProductListVo(productItem);
+            productListVoList.add(productListVo);
+        }
+
+        PageInfo pageResult = new PageInfo(productList);
+        pageResult.setList(productList);
+        return ServerResponse.createBySuccess(pageResult);
+}
+
+
+
 }
