@@ -23,7 +23,8 @@ private static Properties props;
         String url = "mmall.properties";
         props = new Properties();
         try {
-            props.load(new InputStreamReader(PropertiesUtil.class.getResourceAsStream(url)));
+            props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(url),"utf-8"));
+            logger.info("加载配置文件成功");
         } catch (IOException e) {
             logger.error("配置文件读取异常",e);
         }

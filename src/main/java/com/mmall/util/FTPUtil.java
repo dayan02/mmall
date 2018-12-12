@@ -18,6 +18,7 @@ public class FTPUtil {
     private static  final  Logger logger = LoggerFactory.getLogger(FTPUtil.class);
 
 //获取ftp用户密码配置，在mmall.properties里面
+
    private static  String ftpIp = PropertiesUtil.getProperty("ftp.server.ip");
     private static  String ftpIUser = PropertiesUtil.getProperty("ftp.user");
     private static  String ftpIPsw = PropertiesUtil.getProperty("ftp.pass");
@@ -36,10 +37,11 @@ public class FTPUtil {
 
 //开放出去的静态方法
     public static boolean upLoadFile(List<File> fileList) throws IOException{
+
         FTPUtil ftpUtil = new FTPUtil(ftpIp,21,ftpIUser,ftpIPsw);
         logger.info("开始连接ftp服务器");
         boolean result = ftpUtil.upLoadFile("img",fileList);
-        logger.info("开始连接ftp服务器，结束连接，上传结果:{}");
+        logger.info("开始连接ftp服务器，结束连接，上传结果:{}",result);
         return result;
     }
 
@@ -47,6 +49,7 @@ private  boolean upLoadFile(String remotePath,List<File> fileList) throws IOExce
     boolean upLoad = true;
     FileInputStream files = null ;
     //连接ftp服务器
+
    if (connectServer(this.ip,this.port,this.user,this.psw)){
        try {
            //更换目录
@@ -59,9 +62,10 @@ private  boolean upLoadFile(String remotePath,List<File> fileList) throws IOExce
                files = new FileInputStream(fileItem);
                //通过InputStream流调用ftpClient进行文件的存储
                ftpClient.storeFile(fileItem.getName(),files);
+               logger.info("上传到ftp成功");
            }
        } catch (IOException e) {
-           logger.error("上传文件异常",e);
+           logger.error("上传文件异常");
            upLoad = false;
            e.printStackTrace();
        }finally {
@@ -81,11 +85,13 @@ private  boolean upLoadFile(String remotePath,List<File> fileList) throws IOExce
         try {
             //连接
             ftpClient.connect(ip);
+
             //登录
-          isSuccess  =  ftpClient.login(ftpIUser,ftpIPsw);
+          isSuccess  =  ftpClient.login(user,psw);
+
             //确认登录成功才进行文件上传
         } catch (IOException e) {
-            logger.error("连接ftp服务器异常",e);
+
             e.printStackTrace();
         }
         return isSuccess;

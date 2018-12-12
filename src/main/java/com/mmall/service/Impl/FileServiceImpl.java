@@ -35,19 +35,21 @@ logger.info("开始上传文件，上传文件名:{},上传的路径:{},新的�
             fileDir.mkdirs();
             }
         File targetFile = new File(path,uploadFileName);
+
         try {
             file.transferTo(targetFile);
         //文件以及上传成功，以及传到upload文件夹下
-
+            logger.info("文件上传成功");
             //  将文件上传到ftp服务器上
+            logger.info("文件开始上传到ftp服务器");
             FTPUtil.upLoadFile(Lists.newArrayList(targetFile));
 
             // 上传成功后，删除上传到upload文件夹下的图片
             targetFile.delete();
-
+            logger.info("文件上传事件结束");
 
         } catch (IOException e) {
-           logger.error("上传文件异常",e);
+//           logger.error("上传文件异常",e);
             return null;
         }
         return targetFile.getName();
