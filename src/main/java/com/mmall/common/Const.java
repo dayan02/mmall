@@ -1,5 +1,9 @@
 package com.mmall.common;
 
+import com.google.common.collect.Sets;
+
+import java.util.Set;
+
 /**
  * Created by 大燕 on 2018/11/14.
  */
@@ -8,10 +12,14 @@ public class Const {
 
 public  static  final  String CURRENT_USER  = "currentUser";
 
-public static  final  String EMAIL = "email";
+    public static  final  String EMAIL = "email";
     public static final  String USERNAME = "username";
 
-
+//与前端有个约定写法,下划线前部分代表按照什么排序，后部分代表升序还是降序
+    public interface ProdyctListOrderBy{
+    //set的contains方法的时间复杂度是O(1),但是List的是O(n)
+    Set<String> PRICE_ASC_DESC  = Sets.newHashSet("price_desc","price_asc");
+}
 
     public  interface Role{
         int ROLE_CUSTOMER = 0;//普通用户

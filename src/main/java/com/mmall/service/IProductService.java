@@ -24,4 +24,7 @@ public interface IProductService {
 
 //前端商品信息查询
     ServerResponse<ProductDetaiVo> getProductDetail(Integer productId);
+
+    //前端关键字及类别查询
+    ServerResponse<PageInfo> gepProductByKeywordCategoryId(String keyword,Integer productId,int pageNum,int pageSize,String orderBy);
 }
