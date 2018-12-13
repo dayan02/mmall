@@ -21,4 +21,7 @@ public interface IProductService {
 
     //商品查询
     ServerResponse<PageInfo> searchProduct(String productName,Integer productId,int pageNum,int pageSize);
+
+//前端商品信息查询
+    ServerResponse<ProductDetaiVo> getProductDetail(Integer productId);
 }
