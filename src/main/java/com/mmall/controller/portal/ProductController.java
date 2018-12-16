@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping("/product")
+@RequestMapping("/product/")
 public class ProductController {
 
     @Autowired
@@ -31,7 +31,8 @@ public class ProductController {
     }
 
 //前端用户搜索
-
+@RequestMapping("list.do")
+@ResponseBody
 public ServerResponse<PageInfo> list(@RequestParam(value = "keyword",required = false) String keyword,
                                      @RequestParam(value = "categoryId",required = false)Integer categoryId,
                                      @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,

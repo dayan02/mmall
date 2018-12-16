@@ -1,0 +1,12 @@
+1、Nginx配置及运行未成功
+2、图片上传返回值json成功，能成功上传到项目的load文件夹，ftp服务器没有，Nginx地址访问不成功
+3、manage/product测试中，在search.do中，当使用中文关键字的时候不成功，debug之后从postman提交到的是正确的汉字，但是传到sql位置的时候，String就变成?????
+idea以及Tomcat该配置字符集的位置全部都改为UTF-8了，还是没有解决乱码
+
+4、测试控制台显示【Parameter 'NULL' not found. Available parameters are [param1, param2, productName, productId]】，大致是传参部分出现错误，但是找不到错误原因
+解决：在mapper的sql语句中，对这些传入的数值进行非空判断，写的是大写的NULL，改为小写的这个错误就解决了，有点莫名其妙
+5、前端商品接口测试未成功，不能根据关键字和categoryId进行结果展示，未完待续gitgit
+
+
+
+

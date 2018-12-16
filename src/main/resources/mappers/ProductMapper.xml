@@ -181,39 +181,58 @@
     SELECT
     <include refid="Base_Column_List"/>
     FROM mmall_product
-    ORDER BY  ASC
+    ORDER BY id ASC
     <!--pagehelper自动给出limit分页-->
   </select>
 
 <select id="selectProdutByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
-SELECT
+
+  SELECT
 <include refid="Base_Column_List"/>
   from mmall_product
   <where>
-    <if test="productName != NULL"  >
-      AND NAME LIKE #{productName }
+    <if test="productName != null"  >
+      AND name LIKE #{productName}
     </if>
-    <if test="productId !=  NULL" >
-      and Id = #{productId}
-    </if>
+    <if test="productId !=  null" >
+      and id = #{productId}
+  </if>
 
   </where>
 </select>
 
-<select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
-<!--模糊查询以及递归查询的in语句的sql查询-->
-  SELECT
-  <include refid="Base_Column_List"/>
-WHERE status = 1
-  <if test="productName != null">
-    AND name LIKE #{productName}
-  </if>
-  <if test="categoryIdList != null">
-    and category_id in
-<foreach  item="item" index="index"  open="(" separator="," close=")" collection="categoryIdList"></foreach>
-  #{item}
-  </if>
 
 
-</select>
+<!--<select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">-->
+<!--&lt;!&ndash;模糊查询以及递归查询的in语句的sql查询&ndash;&gt;-->
+  <!--SELECT-->
+  <!--<include refid="Base_Column_List"/>-->
+<!--WHERE status = 1-->
+  <!--<if test="productName != null">-->
+    <!--AND name LIKE #{productName}-->
+  <!--</if>-->
+  <!--<if test="categoryIdList != null">-->
+    <!--and category_id in-->
+<!--<foreach  item="item" index="index"  open="(" separator="," close=")" collection="categoryIdList">-->
+  <!--#{item}-->
+<!--</foreach>-->
+  <!--</if>-->
+<!--</select>-->
+
+
+  <select id="selectByNameAndCategoryIds" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"></include>
+    from mmall_product
+    where status = 1
+    <if test="productName != null">
+      and name like #{productName}
+    </if>
+    <if test="categoryIdList != null" >
+      and category_id in
+      <foreach item="item" index="index" open="(" separator="," close=")" collection="categoryIdList">
+        #{item}
+      </foreach>
+    </if>
+  </select>
 </mapper>

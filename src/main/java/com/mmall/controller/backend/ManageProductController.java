@@ -29,7 +29,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/manage/product")
-public class ManageProduct {
+public class ManageProductController {
 
 @Autowired
     private IUserService iUserService;
@@ -107,8 +107,9 @@ return iProductService.setSaleSatus(productId,status);
 //商品查询
 @RequestMapping("search.do")
 @ResponseBody
-//pageNum当前页，默认为第一页，pageSize每页多少，默认10
-public ServerResponse productSearch(HttpSession session ,String productName,Integer productId, @RequestParam(value = "pageNum",defaultValue = "1" ) int pageNum,@RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+
+public ServerResponse productSearch(HttpSession session , String productName, Integer productId, @RequestParam(value = "pageNum",defaultValue = "1" ) int pageNum,@RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+
     User user = (User) session.getAttribute(Const.CURRENT_USER) ;
     if (user == null){
         return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"未登录，需要登录");
@@ -157,6 +158,7 @@ public ServerResponse productSearch(HttpSession session ,String productName,Inte
 
     @RequestMapping("richtext_img_upload.do")
     @ResponseBody
+    //富文本上传
     public Map richtextImgUpload(HttpSession session, @RequestParam(value = "upload_file",required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response){
         Map resultMap = Maps.newHashMap();
         User user = (User) session.getAttribute(Const.CURRENT_USER) ;
