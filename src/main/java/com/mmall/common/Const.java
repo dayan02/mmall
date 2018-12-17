@@ -9,6 +9,7 @@ import java.util.Set;
  */
 
 public class Const {
+    //静态数
 
 public  static  final  String CURRENT_USER  = "currentUser";
 
@@ -20,6 +21,13 @@ public  static  final  String CURRENT_USER  = "currentUser";
     //set的contains方法的时间复杂度是O(1),但是List的是O(n)
     Set<String> PRICE_ASC_DESC  = Sets.newHashSet("price_desc","price_asc");
 }
+
+    public interface  cart{
+        int CHECKED = 1;//购物车选中状态
+        int UNCHECKED = 0;//购物车未选中状态
+        String LIMIT_NUM_FAIL = "LIMIT_NUM_FAIL";
+        String LIMIT_NUM_SUCCESS = "LIMIT_NUM_SUCCESS";
+    }
 
     public  interface Role{
         int ROLE_CUSTOMER = 0;//普通用户

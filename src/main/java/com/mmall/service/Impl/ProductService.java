@@ -249,4 +249,8 @@ if (product.getStatus() != Const.ProductStatusEnum.ON_SALE.getCode()){
             pageInfo.setList(productListVoList);
             return ServerResponse.createBySuccess(pageInfo);
     }
+
+
+
+
 }
