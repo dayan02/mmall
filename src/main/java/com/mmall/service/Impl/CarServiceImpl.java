@@ -51,11 +51,26 @@ public class CarServiceImpl implements ICarService {
             count = cart.getQuantity()+count;
             cart.setQuantity(count);
             cartMapper.updateByPrimaryKeySelective(cart);
-//不过在购物车里面需要有产品数量校验，及数量最少以及和库存相比最大
+//不过在购物车里面需要有产品数量校验，即数量最少以及和库存相比最大
         }
         CartVo cartVo = this.getProductVoLimit(userId);
 
           return ServerResponse.createBySuccess(cartVo);
+    }
+
+
+    //更新购物车
+    public ServerResponse<CartVo> update(Integer userId,Integer productId,Integer count) {
+        if (productId == null || count == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        Cart cart = cartMapper.selectProductByUserIdProductId(userId,productId);
+        if (cart != null){
+            cart.setQuantity(count);
+        }
+        cartMapper.updateByPrimaryKeySelective(cart);
+        CartVo cartVo = this.getProductVoLimit(userId);
+        return ServerResponse.createBySuccess(cartVo);
     }
 
 
