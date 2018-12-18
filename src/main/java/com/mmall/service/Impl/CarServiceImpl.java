@@ -33,15 +33,6 @@ public class CarServiceImpl implements ICarService {
     private ProductMapper productMapper;
 
 
-    //查找(购物车查找)
-public ServerResponse<CartVo> list(Integer userId){
-    CartVo cartVo = this.getProductVoLimit(userId);
-
-    return ServerResponse.createBySuccess(cartVo);
-}
-
-
-
 
 
     //添加购物车
@@ -66,9 +57,7 @@ public ServerResponse<CartVo> list(Integer userId){
             cartMapper.updateByPrimaryKeySelective(cart);
 //不过在购物车里面需要有产品数量校验，即数量最少以及和库存相比最大
         }
-        CartVo cartVo = this.getProductVoLimit(userId);
-
-          return ServerResponse.createBySuccess(cartVo);
+        return this.list(userId);
     }
 
 
@@ -82,8 +71,7 @@ public ServerResponse<CartVo> list(Integer userId){
             cart.setQuantity(count);
         }
         cartMapper.updateByPrimaryKeySelective(cart);
-        CartVo cartVo = this.getProductVoLimit(userId);
-        return ServerResponse.createBySuccess(cartVo);
+        return this.list(userId);
     }
 
 //删除购物车产品
@@ -93,10 +81,31 @@ public ServerResponse<CartVo> deleteProduct(Integer userId,String  productIds){
         return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
     }
     cartMapper.deleteByUserIdProductId(userId,productList);
-    CartVo cartVo = this.getProductVoLimit(userId);
-    return ServerResponse.createBySuccess(cartVo);
+    return this.list(userId);
 }
 
+
+    //查找(购物车查找)
+    public ServerResponse<CartVo> list(Integer userId){
+        CartVo cartVo = this.getProductVoLimit(userId);
+        return ServerResponse.createBySuccess(cartVo);
+    }
+
+
+    //购物车全选或全反选
+    public  ServerResponse<CartVo> selectOrUnSelect(Integer userId,Integer productId,Integer checked){
+    cartMapper.checkedOrUnChecked(userId, productId,checked);
+        return this.list(userId);
+    }
+
+//给出购物车产品总数
+public  ServerResponse<Integer> getCarProductCount(Integer userId) {
+    if (userId == null){
+        return ServerResponse.createBySuccess(0);
+    }
+    return ServerResponse.createBySuccess(cartMapper.getCartProductCount(userId));
+
+}
 
     private CartVo getProductVoLimit(Integer userId){
         CartVo cartVo = new CartVo();

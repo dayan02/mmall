@@ -15,5 +15,9 @@ public interface ICarService {
     ServerResponse<CartVo> deleteProduct(Integer userId,String  productIds);
     //购物车列表
     ServerResponse<CartVo> list(Integer userId);
+    //全选或者反全选
+    ServerResponse<CartVo> selectOrUnSelect(Integer userId,Integer productId,Integer checked);
+    //获取购物车全部产品数量
+    ServerResponse<Integer> getCarProductCount(Integer userId);
 
 }

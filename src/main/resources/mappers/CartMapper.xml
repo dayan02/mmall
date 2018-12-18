@@ -155,5 +155,20 @@
 
   </delete>
 
+<update id="checkedOrUnChecked" parameterType="map">
+UPDATE mmall_cart
+SET checked = #{checked},
+update_time = now()
+where user_id = #{userId}
+<if test="productId != null">
+product_id = #{productId}
+</if>
+</update>
 
+
+  <select id="getCartProductCount" parameterType="int" resultType="int">
+
+SELECT  NULLIF(sum(quantity),0) as count from mmall_cart where user_id = #{userId}
+
+  </select>
 </mapper>
