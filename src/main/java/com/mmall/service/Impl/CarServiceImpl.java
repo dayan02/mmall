@@ -1,5 +1,6 @@
 package com.mmall.service.Impl;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.mmall.common.Const;
 import com.mmall.common.ResponseCode;
@@ -30,6 +31,18 @@ public class CarServiceImpl implements ICarService {
 
     @Autowired
     private ProductMapper productMapper;
+
+
+    //查找(购物车查找)
+public ServerResponse<CartVo> list(Integer userId){
+    CartVo cartVo = this.getProductVoLimit(userId);
+
+    return ServerResponse.createBySuccess(cartVo);
+}
+
+
+
+
 
     //添加购物车
     public ServerResponse<CartVo> add(Integer userId,Integer productId,Integer count){
@@ -72,6 +85,17 @@ public class CarServiceImpl implements ICarService {
         CartVo cartVo = this.getProductVoLimit(userId);
         return ServerResponse.createBySuccess(cartVo);
     }
+
+//删除购物车产品
+public ServerResponse<CartVo> deleteProduct(Integer userId,String  productIds){
+    List<String> productList = Splitter.on(",").splitToList(productIds);
+    if (productList == null){
+        return ServerResponse.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(), ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+    }
+    cartMapper.deleteByUserIdProductId(userId,productList);
+    CartVo cartVo = this.getProductVoLimit(userId);
+    return ServerResponse.createBySuccess(cartVo);
+}
 
 
     private CartVo getProductVoLimit(Integer userId){

@@ -135,10 +135,25 @@
 </select>
 
 
-  <select id="selectCartProcuctCheckedStatusByUserId" resultType="int">
+  <select id="selectCartProcuctCheckedStatusByUserId" resultType="int" parameterType="int">
     select COUNT(1)
     FROM  mmall_cart
     WHERE checked = 0
     AND  user_id = #{userId}
   </select>
+
+  <delete id="deleteByUserIdProductId" parameterType="map">
+    DELETE  from mmall_cart
+    WHERE user_id = #{userId}
+    <if test="productList != null">
+      and product_id in
+      <foreach collection="productList" item="item" index="index" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+
+    </if>
+
+  </delete>
+
+
 </mapper>

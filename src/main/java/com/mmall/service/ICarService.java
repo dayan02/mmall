@@ -11,5 +11,9 @@ public interface ICarService {
     ServerResponse<CartVo> add(Integer userId, Integer productId, Integer count);
     //更新购物车
     ServerResponse<CartVo> update(Integer userId,Integer productId,Integer count);
+    //删除购物车产品
+    ServerResponse<CartVo> deleteProduct(Integer userId,String  productIds);
+    //购物车列表
+    ServerResponse<CartVo> list(Integer userId);
 
 }
